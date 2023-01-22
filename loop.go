@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ambelovsky/gosf-socketio/protocol"
-	"github.com/ambelovsky/gosf-socketio/transport"
+	"github.com/milanjrodd/gosf-socketio-uldr/protocol"
+	"github.com/milanjrodd/gosf-socketio-uldr/transport"
 )
 
 const (
@@ -19,7 +19,8 @@ var (
 	ErrorWrongHeader = errors.New("Wrong header")
 )
 
-/**
+/*
+*
 engine.io header to send or receive
 */
 type Header struct {
@@ -29,7 +30,8 @@ type Header struct {
 	PingTimeout  int      `json:"pingTimeout"`
 }
 
-/**
+/*
+*
 socket.io connection handler
 
 use IsAlive to check that handler is still working
@@ -54,7 +56,8 @@ type Channel struct {
 	request *http.Request
 }
 
-/**
+/*
+*
 create channel, map, and set active
 */
 func (c *Channel) initChannel() {
@@ -64,14 +67,16 @@ func (c *Channel) initChannel() {
 	c.setAliveValue(true)
 }
 
-/**
+/*
+*
 Get id of current socket connection
 */
 func (c *Channel) Id() string {
 	return c.header.Sid
 }
 
-/**
+/*
+*
 Checks that Channel is still alive
 */
 func (c *Channel) IsAlive() bool {
@@ -88,7 +93,8 @@ func (c *Channel) setAliveValue(value bool) {
 	c.aliveLock.Unlock()
 }
 
-/**
+/*
+*
 Close channel
 */
 func closeChannel(c *Channel, m *methods, args ...interface{}) error {
@@ -114,7 +120,7 @@ func closeChannel(c *Channel, m *methods, args ...interface{}) error {
 	return nil
 }
 
-//incoming messages loop, puts incoming messages to In channel
+// incoming messages loop, puts incoming messages to In channel
 func inLoop(c *Channel, m *methods) error {
 	for {
 		pkg, err := c.conn.GetMessage()
@@ -152,7 +158,8 @@ func storeOverflow(c *Channel) {
 	overflooded.Store(c, struct{}{})
 }
 
-/**
+/*
+*
 outgoing messages loop, sends messages from channel to socket
 */
 func outLoop(c *Channel, m *methods) error {
@@ -178,7 +185,8 @@ func outLoop(c *Channel, m *methods) error {
 	}
 }
 
-/**
+/*
+*
 Pinger sends ping messages for keeping connection alive
 */
 func pinger(c *Channel) {

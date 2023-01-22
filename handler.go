@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"sync"
 
-	"github.com/ambelovsky/gosf-socketio/protocol"
+	"github.com/milanjrodd/gosf-socketio-uldr/protocol"
 )
 
 const (

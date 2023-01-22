@@ -1,11 +1,11 @@
-golang socket.io
-================
+# golang socket.io
 
 GoLang implementation of [socket.io](http://socket.io) library, client and server.
 
 This library is maintained for [GOSF](https://github.com/ambelovsky/gosf), the GoLang SocketIO Framework.
 
 This library was built with contributions by:
+
 - [ambelovsky](https://github.com/ambelovsky)
 - [joaopandolfi](https://github.com/joaopandolfi)
 
@@ -14,7 +14,7 @@ Examples directory contains simple client and server.
 ### Get It
 
 ```sh
-go get -u github.com/ambelovsky/gosf-socketio
+go get -u github.com/milanjrodd/gosf-socketio-uldr
 ```
 
 ### Simple server usage
@@ -51,26 +51,23 @@ go get -u github.com/ambelovsky/gosf-socketio
 ### Javascript client for caller server
 
 ```javascript
-var socket = io('ws://yourdomain.com', {transports: ['websocket']});
+var socket = io("ws://yourdomain.com", { transports: ["websocket"] });
 
-    // listen for messages
-    socket.on('message', function(message) {
+// listen for messages
+socket.on("message", function (message) {
+  console.log("new message");
+  console.log(message);
+});
 
-        console.log('new message');
-        console.log(message);
-    });
+socket.on("connect", function () {
+  console.log("socket connected");
 
-    socket.on('connect', function () {
-
-        console.log('socket connected');
-
-        //send something
-        socket.emit('send', {name: "my name", message: "hello"}, function(result) {
-
-            console.log('sended successfully');
-            console.log(result);
-        });
-    });
+  //send something
+  socket.emit("send", { name: "my name", message: "hello" }, function (result) {
+    console.log("sended successfully");
+    console.log(result);
+  });
+});
 ```
 
 ### Server, detailed usage
