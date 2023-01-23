@@ -20,6 +20,8 @@ Socket.io client representation
 type Client struct {
 	methods
 	Channel
+	transport.Transport
+	url string
 }
 
 /*
@@ -49,6 +51,7 @@ func Dial(url string, tr transport.Transport) (*Client, error) {
 	c := &Client{}
 	c.initChannel()
 	c.initMethods()
+	c.Transport = tr
 
 	var err error
 	c.conn, err = tr.Connect(url)
@@ -69,4 +72,22 @@ Close client connection
 */
 func (c *Client) Close() {
 	closeChannel(&c.Channel, &c.methods)
+}
+
+/*
+*
+Open client connection
+*/
+func (c *Client) Open() (err error) {
+	c.conn, err = c.Transport.Connect(c.url)
+
+	if err != nil {
+		return err
+	}
+
+	go inLoop(&c.Channel, &c.methods)
+	go outLoop(&c.Channel, &c.methods)
+	go pinger(&c.Channel)
+
+	return nil
 }
