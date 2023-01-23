@@ -62,6 +62,7 @@ func Dial(url string, tr transport.Transport) (*Client, error) {
 	go inLoop(&c.Channel, &c.methods)
 	go outLoop(&c.Channel, &c.methods)
 	go pinger(&c.Channel)
+	go heartbeat(&c.Channel)
 
 	return c, nil
 }
@@ -88,6 +89,7 @@ func (c *Client) Open() (err error) {
 	go inLoop(&c.Channel, &c.methods)
 	go outLoop(&c.Channel, &c.methods)
 	go pinger(&c.Channel)
+	go heartbeat(&c.Channel)
 
 	return nil
 }

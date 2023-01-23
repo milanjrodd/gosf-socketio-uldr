@@ -200,3 +200,19 @@ func pinger(c *Channel) {
 		c.out <- protocol.PingMessage
 	}
 }
+
+/*
+*
+Heartbeat wasd specified in socket.io protocol
+*/
+func heartbeat(c *Channel) {
+	ticker := time.NewTicker(25 * time.Second)
+	for {
+		<-ticker.C
+		if !c.IsAlive() {
+			return
+		}
+		// emit heartbeat event
+		c.Emit("heartbeat", nil)
+	}
+}
