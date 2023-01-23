@@ -51,7 +51,9 @@ func Dial(url string, tr transport.Transport) (*Client, error) {
 	c := &Client{}
 	c.initChannel()
 	c.initMethods()
+
 	c.Transport = tr
+	c.url = url
 
 	var err error
 	c.conn, err = tr.Connect(url)
