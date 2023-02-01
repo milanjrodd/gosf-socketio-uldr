@@ -47,10 +47,13 @@ ws://myserver.com/socket.io/?EIO=3&transport=websocket
 
 You can use GetUrlByHost for generating correct url
 */
-func Dial(url string, tr transport.Transport) (*Client, error) {
-	c := &Client{}
+func Dial(url string, tr transport.Transport, c *Client) (*Client, error) {
+	if c == nil {
+		c = &Client{}
+		c.initMethods()
+	}
+
 	c.initChannel()
-	c.initMethods()
 
 	c.Transport = tr
 	c.url = url

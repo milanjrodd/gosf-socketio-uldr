@@ -36,7 +36,9 @@ func main() {
 		go func() {
 			c, err := gosocketio.Dial(
 				gosocketio.GetUrl("localhost", 3811, false),
-				transport.GetDefaultWebsocketTransport())
+				transport.GetDefaultWebsocketTransport(),
+				nil,
+			)
 			if err != nil {
 				log.Fatal(err)
 			}
