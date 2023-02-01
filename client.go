@@ -85,6 +85,8 @@ func (c *Client) Close() {
 Open client connection
 */
 func (c *Client) Open() (err error) {
+	c.initChannel()
+
 	c.conn, err = c.Transport.Connect(c.url)
 
 	if err != nil {
